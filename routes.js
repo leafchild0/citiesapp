@@ -10,11 +10,14 @@ const mongojs = require('mongojs');
 const fs = require('fs');
 const path = require('path');
 
+const pathToImages = '/images/cities/';
+
 //Use different one
 const db = mongojs('mongodb://cities-user:z8H8oenD@ds061196.mlab.com:61196/cities-a', [ 'cities' ]);
 
 let constructPaths = function(city) {
-	city.photo = '/images/cities/' + city.photo;
+	//This path should be recreated in the fs
+	city.photo = pathToImages + city.photo;
 	return city;
 };
 
