@@ -17,7 +17,9 @@ export class AppComponent implements OnInit {
 	public isCollapsed:boolean = true;
 	private viewContainerRef: ViewContainerRef;
 
-	constructor(viewContainerRef:ViewContainerRef){}
+	constructor(viewContainerRef:ViewContainerRef){
+		this.viewContainerRef = viewContainerRef;
+	}
 
 	ngOnInit() {
 	}

@@ -24,10 +24,10 @@ export class GameCityComponent implements OnInit {
 	showErrorAlert: boolean;
 	solved: boolean;
 
-	@ViewChild('childModal')
-	public childModal:ModalDirective;
+	@ViewChild('smModal')
+	public bsModal: ModalDirective;
 
-	public alerts:Array<Object> = [
+	public alerts: Array<Object> = [
 		{
 			type: 'danger',
 			msg: 'Неправильный ответ. Спробуйте ще',
@@ -40,7 +40,7 @@ export class GameCityComponent implements OnInit {
 		}
 	];
 
-	constructor(private route: ActivatedRoute, private router:Router, private citiesService:CitiesService) {
+	constructor(private route: ActivatedRoute, private citiesService: CitiesService) {
 	}
 
 	ngOnInit() {
@@ -51,16 +51,16 @@ export class GameCityComponent implements OnInit {
 		this.solved = false;
 
 		this.route.params.forEach((params: Params) => {
-			this.citiesService.getCity(params['id'])
+			this.citiesService.getCity(params[ 'id' ])
 				.subscribe(city => {
 					this.city = city;
 				});
 		});
 	}
 
-	public closeAlert(i:number):void {
-		if(i == 0) this.showErrorAlert = false;
-		if(i == 1) this.showSuccessAlert = false;
+	public closeAlert(i: number): void {
+		if (i == 0) this.showErrorAlert = false;
+		if (i == 1) this.showSuccessAlert = false;
 	}
 
 
@@ -69,7 +69,7 @@ export class GameCityComponent implements OnInit {
 		this.showErrorAlert = false;
 		this.showSuccessAlert = false;
 		//Remove all punc from user guess and city name
-		if(this.removePunct(guess.value) ===
+		if (this.removePunct(guess.value) ===
 			this.removePunct(this.city.name)) {
 			console.log('Hooray!! You right');
 			this.showSuccessAlert = true;
@@ -79,24 +79,25 @@ export class GameCityComponent implements OnInit {
 			this.showErrorAlert = true;
 		}
 
-		if(this.solved || this.tries >= 0) {
-			this.showChildModal();
-		}
 		guess.value = '';
 		this.tries -= 1;
+
+		if (this.solved || this.tries <= 0) {
+			this.showChildModal();
+		}
 	}
 
-	private removePunct(value:string): string {
+	private removePunct(value: string): string {
 		value = value.replace(/[^\w\s]|_/g, "")
 			.replace(/\s+/g, " ");
 		return value;
 	}
 
-	public showChildModal():void {
-		this.childModal.show();
+	public showChildModal(): void {
+		this.bsModal.show();
 	}
 
-	public hideChildModal():void {
-		this.childModal.hide();
+	public hideChildModal(): void {
+		this.bsModal.hide();
 	}
 }

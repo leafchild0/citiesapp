@@ -10,7 +10,9 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { CitiesComponent } from "./components/cities.component";
-import { CollapseDirective, ModalDirective, AlertComponent, ComponentsHelper } from 'ng2-bootstrap/ng2-bootstrap';
+import {
+	CollapseDirective, ModalDirective, AlertComponent, ComponentsHelper, ModalModule
+} from 'ng2-bootstrap/ng2-bootstrap';
 import { AppRoutingModule } from "./app.routing.module";
 import { NewGameComponent } from "./components/newgame.component";
 import { RulesComponent } from "./components/rules.component";
@@ -18,7 +20,7 @@ import { GameCityComponent } from "./components/game-city.component";
 import { CitiesService } from "./services/cities.service";
 
 @NgModule({
-	imports: [ BrowserModule, HttpModule, AppRoutingModule ],
+	imports: [ BrowserModule, HttpModule, AppRoutingModule, ModalModule ],
 	declarations: [
 		AppComponent,
 		CitiesComponent,
@@ -27,8 +29,7 @@ import { CitiesService } from "./services/cities.service";
 		GameCityComponent,
 
 		CollapseDirective,
-		AlertComponent,
-		ModalDirective
+		AlertComponent
 	],
 	providers: [ CitiesService, ComponentsHelper ],
 	bootstrap: [ AppComponent ]

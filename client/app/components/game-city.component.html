@@ -41,12 +41,12 @@
 			</div>
 			<div class="modal-body">
 				<div *ngIf="solved">
-					<p>Вы выйграли! Урааа</p>
+					<p>Вы выиграли! Урааа</p>
 				</div>
 				<div *ngIf="!solved">
 					<p>Вы проиграли. Можно всегда попробовать снова</p>
 				</div>
-				<a class="btn btn-primary" *ngIf="solved" routerLink="/newgame">Новая игра?</a>
+				<a class="btn btn-primary" routerLink="/newgame">Новая игра?</a>
 			</div>
 		</div>
 	</div>
