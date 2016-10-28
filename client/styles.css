@@ -16,3 +16,7 @@ body {
 .center-block {
     float: none;
 }
+
+img {
+    margin: 10px;
+}
