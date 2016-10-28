@@ -45,7 +45,7 @@ export class GameCityComponent implements OnInit {
 
 	ngOnInit() {
 		this.tries = 3;
-		this.city = {};
+		//this.city = {};
 		this.showErrorAlert = false;
 		this.showSuccessAlert = false;
 		this.solved = false;

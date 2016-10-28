@@ -45,7 +45,7 @@ export class NewGameComponent implements OnInit {
 	}
 	
 	private startTheGame(city:City): void {
-		if(city == null) return;
+		if(city === null || city._id === null) return;
 		let link = ['/city', city._id];
 		this.router.navigate(link);	
 	}
