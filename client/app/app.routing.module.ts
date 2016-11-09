@@ -11,13 +11,15 @@ import { NewGameComponent } from "./components/newgame.component";
 import { GameCityComponent } from "./components/game-city.component";
 import { RulesComponent } from "./components/rules.component";
 import { CitiesComponent } from "./components/cities.component";
+import { AddCityComponent } from "./components/addcity.component";
 
 const routes: Routes = [
 	{ path: '', redirectTo: '/cities', pathMatch: 'full' },
 	{ path: 'cities', component: CitiesComponent },
 	{ path: 'newgame', component: NewGameComponent },
 	{ path: 'rules', component: RulesComponent },
-	{ path: 'city/:id', component: GameCityComponent }
+	{ path: 'city/:id', component: GameCityComponent },
+	{ path: 'addcity', component: AddCityComponent }
 ];
 
 @NgModule({

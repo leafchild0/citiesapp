@@ -11,6 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const config = require('./config');
+const utils = require('./cityUtils');
 
 const pathToImages = '/images/cities/';
 
@@ -54,10 +55,7 @@ router.post('/cities', function(req, res, next) {
 			"error": "Invalid Data"
 		});
 	} else {
-		db.cities.save(newCity, function(err, result) {
-			if(err) res.send(err);
-			else res.json(result);
-		});
+		utils.saveCity(newCity, req, res, db);
 	}
 });
 
@@ -75,7 +73,11 @@ router.delete('/city/:id', function(req, res, next) {
 const upload = multer({
 	storage: multer.diskStorage({
 		destination: function (req, file, cb) {
-			cb(null, path.join(__dirname, 'client/images/cities'));
+			let dest = path.join(__dirname, 'client/images/cities/' + (req.body.city || ''));
+			if (!fs.existsSync(dest)){
+				fs.mkdirSync(dest);
+			}
+			cb(null, dest);
 		},
 		filename: (req, file, cb) => {
 			let ext = path.extname(file.originalname);
@@ -85,14 +87,14 @@ const upload = multer({
 });
 
 router.post('/upload', upload.any(), (req, res) => {
-	res.json(req.files.map(file => {
-		let ext = path.extname(file.originalname);
-		return {
-			originalName: file.originalname,
-			filename: file.filename,
-			path: file.path
-		}
-	}));
+	req.files.map(file => {
+		let newCity = {
+			name: file.filename,
+			path: file.path,
+		};
+		//Save city in DB
+		utils.saveCity(newCity, req, res, db);
+	});
 });
 
 

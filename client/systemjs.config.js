@@ -26,6 +26,7 @@
 			//'angular-in-memory-web-api': 'npm:angular-in-memory-web-api',
 			'ng2-bootstrap':             'npm:ng2-bootstrap',
 			'moment':                    'npm:moment',
+			'ng2-file-upload':           'npm:ng2-file-upload'
 		},
 		// packages tells the System loader how to load when no filename and/or no extension
 		packages: {
@@ -46,6 +47,10 @@
 			},
 			'moment': {
 				main: 'moment.js',
+				defaultExtension: 'js'
+			},
+			'ng2-file-upload': {
+				main: 'ng2-file-upload.js',
 				defaultExtension: 'js'
 			}
 		}
