@@ -9,11 +9,13 @@ const router = express.Router();
 const mongojs = require('mongojs');
 const fs = require('fs');
 const path = require('path');
+const multer = require('multer');
+const config = require('./config');
 
 const pathToImages = '/images/cities/';
 
 //Use different one
-const db = mongojs('mongodb://cities-user:z8H8oenD@ds061196.mlab.com:61196/cities-a', [ 'cities' ]);
+const db = mongojs(config.database.url, [ config.database.name ]);
 
 let constructPaths = function(city) {
 	//This path should be recreated in the fs
@@ -68,5 +70,30 @@ router.delete('/city/:id', function(req, res, next) {
 		else res.json(result);
 	});
 });
+
+//Upload service
+const upload = multer({
+	storage: multer.diskStorage({
+		destination: function (req, file, cb) {
+			cb(null, path.join(__dirname, 'client/images/cities'));
+		},
+		filename: (req, file, cb) => {
+			let ext = path.extname(file.originalname);
+			cb(null, `${Math.random().toString(36).substring(7)}${ext}`);
+		}
+	})
+});
+
+router.post('/upload', upload.any(), (req, res) => {
+	res.json(req.files.map(file => {
+		let ext = path.extname(file.originalname);
+		return {
+			originalName: file.originalname,
+			filename: file.filename,
+			path: file.path
+		}
+	}));
+});
+
 
 module.exports = router;
