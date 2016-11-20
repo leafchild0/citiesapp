@@ -8,5 +8,7 @@
 export class City {
 	_id: string;
 	name: string;
-	photo: [string];
+	path: string;
+	photos: [string];
+	host: string;
 }

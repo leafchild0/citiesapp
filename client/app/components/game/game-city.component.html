@@ -2,27 +2,19 @@
 	<h1 class="page-title">Какой это город?</h1>
 	<h3>Попыток осталось: {{tries}}</h3>
 </div>
-<div>
-	<alert dismissOnTimeout="5000" *ngIf="showErrorAlert" [type]="alerts[0].type" dismissible="true"
-	       (close)="closeAlert(0)">
-		{{ alerts[0].msg }}
-	</alert>
-</div>
-<div>
-	<alert dismissOnTimeout="5000" *ngIf="showSuccessAlert" [type]="alerts[1].type" dismissible="true"
-	       (close)="closeAlert(1)">
-		{{ alerts[1].msg }}
-	</alert>
-</div>
-
 <div class="row" *ngIf="city">
-	<div class="col-sm-4 col-md-6 col-lg-8 center-block">
-		<img class="img-thumbnail img-fluid" [src]="city.photo">
+	<div class="row">
+		<div class="col-sm-4 col-md-6 col-lg-8 center-block">
+			<img class="img-thumbnail img-responsive" [src]="displayPhoto">
+		</div>
 	</div>
-</div>
 
-<div class="row">
-	<div class="col-sm-12 col-md-8 col-lg-4 center-block">
+	<div class="row">
+		<a class="btn btn-info col-lg-offset-5 col-md-offset-4 col-sm-offset-3" (click)="showNextPhoto()">Другое фото</a>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12 col-md-8 col-lg-4 center-block">
 			<form *ngIf="!solved" class="form-inline" (submit)="guestCity($event, guess)">
 				<div class="input-group input-group-lg">
 					<input type="text" #guess class="form-control" placeholder="Этот город называется?" required>
@@ -30,6 +22,7 @@
 				<button type="submit" class="btn btn-default">Ответить</button>
 			</form>
 		</div>
+	</div>
 </div>
 
 <div bsModal #smModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
@@ -44,12 +37,15 @@
 			</div>
 			<div class="modal-body">
 				<div *ngIf="solved">
-					<p>Вы выиграли! Урааа</p>
+					<p class="text-succes">{{winner}} выиграл! Урааа</p>
+					<p ng-if="currentUser == winner" class="bg-info">Количество попыток: {{3 - tries}}</p>
+					<p ng-if="currentUser == winner" class="bg-info">Количество подсказок: {{hints}}</p>
 				</div>
 				<div *ngIf="!solved">
-					<p>Вы проиграли. Можно всегда попробовать снова</p>
+					<p class="text-danger">Вы проиграли. Можно всегда попробовать снова</p>
 				</div>
-				<a class="btn btn-primary" routerLink="/newgame">Новая игра?</a>
+				<a class="btn btn-primary" routerLink="/newgame">Новая игра</a>
+				<a class="btn btn-info" routerLink="/connect">Присоединится к игре</a>
 			</div>
 		</div>
 	</div>

@@ -13,23 +13,14 @@ const multer = require('multer');
 const config = require('./config');
 const utils = require('./cityUtils');
 
-const pathToImages = '/images/cities/';
-
 //Use different one
-const db = mongojs(config.database.url, [ config.database.name ]);
-
-let constructPaths = function(city) {
-	//This path should be recreated in the fs
-	city.photo = pathToImages + city.photo;
-	return city;
-};
+const db = mongojs(config.database.url, [ config.database.cities, config.database.games ]);
 
 //All items
 router.get('/cities', function(req, res, next) {
 	db.cities.find(function(err, cities) {
 		if(err) res.send(err);
 		else {
-			cities.forEach(city => constructPaths(city));
 			res.json(cities);
 		}
 
@@ -41,7 +32,7 @@ router.get('/cities/:id', function(req, res, next) {
 	db.cities.findOne({ _id: mongojs.ObjectId(req.params.id) }, function(err, city) {
 		if(err) res.send(err);
 		else {
-			res.json(constructPaths(city));
+			res.json(city);
 		}
 	});
 });
@@ -55,7 +46,7 @@ router.post('/cities', function(req, res, next) {
 			"error": "Invalid Data"
 		});
 	} else {
-		utils.saveCity(newCity, req, res, db);
+		utils.saveCity(newCity, req, res);
 	}
 });
 
@@ -69,11 +60,15 @@ router.delete('/city/:id', function(req, res, next) {
 	});
 });
 
+router.get('/games', function(req, res) {
+	res.json(utils.getGames());
+});
+
 //Upload service
 const upload = multer({
 	storage: multer.diskStorage({
 		destination: function (req, file, cb) {
-			let dest = path.join(__dirname, 'client/images/cities/' + (req.body.city || ''));
+			let dest = path.join(__dirname, 'client/images/cities/', (req.body.city || ''));
 			if (!fs.existsSync(dest)){
 				fs.mkdirSync(dest);
 			}
@@ -87,14 +82,18 @@ const upload = multer({
 });
 
 router.post('/upload', upload.any(), (req, res) => {
-	req.files.map(file => {
-		let newCity = {
-			name: file.filename,
-			path: file.path,
-		};
-		//Save city in DB
-		utils.saveCity(newCity, req, res, db);
-	});
+	let newCity = {
+		name: req.body.city,
+		path: path.join('/images/cities/', (req.body.city || '')),
+		photos: req.files.map(file => {return file.filename})
+	};
+	//Save city in DB
+	//TODO: Append to array of photos
+	utils.addOrUpdateCity(newCity, req, res);
+});
+
+router.get('/', function(req, res) {
+	res.redirect('/');
 });
 
 

@@ -16,13 +16,13 @@ import { FileUploader } from "ng2-file-upload";
 
 export class AddCityComponent implements OnInit{
 
-	private URL:string = 'http://localhost:3000/api/upload';
+	private URL:string = 'http://192.168.1.104:3000/api/upload';
 	private city: string;
 
 	public uploader:FileUploader = new FileUploader({url: this.URL});
 	public hasBaseDropZoneOver:boolean = false;
 
-	constructor(private router: Router) {}
+	constructor() {}
 
 	ngOnInit(): void {
 		this.uploader.onBuildItemForm = (fileItem: any, form: FormData) => {
@@ -30,26 +30,9 @@ export class AddCityComponent implements OnInit{
 		};
 	}
 
-	/*handleUpload(data): void {
-		if (data && data.response) {
-			data = JSON.parse(data.response);
-			this.response.push(data);
-		} else {
-			data.city = this.city;
-		}
+	uploadAll() {
+		if(this.city) this.uploader.uploadAll();
 	}
-
-	fileOverBase(e:any):void {
-		this.hasBaseDropZoneOver = e;
-	}
-
-	handlePreviewData(data: any): void {
-		this.previewData.push(data);
-	}
-
-	startUpload() {
-		this.uploadEvents.emit('startUpload');
-	}*/
 
 	public fileOverBase(e:any):void {
 		this.hasBaseDropZoneOver = e;

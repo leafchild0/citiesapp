@@ -15,6 +15,6 @@ import { Router } from "@angular/router";
 
 export class CitiesComponent {
 
-	constructor(private router: Router) {}
+	constructor() {}
 	
 }

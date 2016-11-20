@@ -8,24 +8,30 @@ import { Headers, Http } from "@angular/http";
 
 @Injectable()
 export class CitiesService {
-	api_url = '/api/cities/';
-	
+	cities_url = '/api/cities/';
+	games_url = '/api/games/';
+
 	constructor(private _http: Http) {}
 
 	getCities() {
-		return this._http.get(this.api_url)
+		return this._http.get(this.cities_url)
+			.map(res => res.json());
+	}
+
+	getGames() {
+		return this._http.get(this.games_url)
 			.map(res => res.json());
 	}
 
 	addCity(city) {
 		let headers = CitiesService.getJsonHeaders();
-		return this._http.post(this.api_url, JSON.stringify(city), { headers: headers })
+		return this._http.post(this.cities_url, JSON.stringify(city), { headers: headers })
 			.map(res => res.json());
 	}
 
 	getCity(id) {
 		let headers = CitiesService.getJsonHeaders();
-		return this._http.get(this.api_url + id, { headers: headers })
+		return this._http.get(this.cities_url + id, { headers: headers })
 			.map(res => res.json());
 	}
 

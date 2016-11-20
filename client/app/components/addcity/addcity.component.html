@@ -12,7 +12,7 @@
 		Добавить фото
 	</div>
 
-	<button type="submit" class="btn btn-primary" (click)="uploader.uploadAll()">Загрузить все</button>
+	<button type="submit" class="btn btn-primary" (click)="uploadAll()">Загрузить все</button>
 
 </form>
 
@@ -42,15 +42,15 @@
 		<td nowrap>
 			<button type="button" class="btn btn-success btn-xs"
 			        (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-				<span class="glyphicon glyphicon-upload"></span> Upload
+				<span class="glyphicon glyphicon-upload"></span> Загрузить
 			</button>
 			<button type="button" class="btn btn-warning btn-xs"
 			        (click)="item.cancel()" [disabled]="!item.isUploading">
-				<span class="glyphicon glyphicon-ban-circle"></span> Cancel
+				<span class="glyphicon glyphicon-ban-circle"></span> Отмена
 			</button>
 			<button type="button" class="btn btn-danger btn-xs"
 			        (click)="item.remove()">
-				<span class="glyphicon glyphicon-trash"></span> Remove
+				<span class="glyphicon glyphicon-trash"></span> Удалить
 			</button>
 		</td>
 		<td class="text-center">
@@ -59,13 +59,3 @@
 	</tr>
 	</tbody>
 </table>
-
-<!--
-<div>
-	Response: {{ response | json }}
-</div>
-
-<button class="button" (click)="startUpload()">Start Upload</button>
-<div *ngFor="let image of previewData" class="row">
-	<img class="img-responsive img-rounded" [src]="image" width="400" height="300" alt="Preview Data" class="preview-img">
-</div>-->

@@ -35,3 +35,7 @@ img {
     background: #41c7f9;
     color: #fff;
 }
+
+.img-item {
+    max-width: 300px;
+}

@@ -23,10 +23,11 @@
 			'@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
 			// other libraries
 			'rxjs':                      'npm:rxjs',
-			//'angular-in-memory-web-api': 'npm:angular-in-memory-web-api',
 			'ng2-bootstrap':             'npm:ng2-bootstrap',
 			'moment':                    'npm:moment',
-			'ng2-file-upload':           'npm:ng2-file-upload'
+			'ng2-file-upload':           'npm:ng2-file-upload',
+			'socket.io-client':          'npm:socket.io-client',
+			'ng2-toastr':                'npm:ng2-toastr'
 		},
 		// packages tells the System loader how to load when no filename and/or no extension
 		packages: {
@@ -37,10 +38,6 @@
 			rxjs: {
 				defaultExtension: 'js'
 			},
-			/*'angular-in-memory-web-api': {
-				main: './index.js',
-				defaultExtension: 'js'
-			},*/
 			'ng2-bootstrap': {
 				main: 'ng2-bootstrap.js',
 				defaultExtension: 'js'
@@ -51,6 +48,14 @@
 			},
 			'ng2-file-upload': {
 				main: 'ng2-file-upload.js',
+				defaultExtension: 'js'
+			},
+			'socket.io-client': {
+				main: 'socket.io.js',
+				defaultExtension: 'js'
+			},
+			'ng2-toastr': {
+				main: 'ng2-toastr.js',
 				defaultExtension: 'js'
 			}
 		}

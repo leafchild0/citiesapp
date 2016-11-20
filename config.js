@@ -8,7 +8,8 @@ const config = {
 	port: 3000,
 	database: {
 		url: 'mongodb://cities-user:z8H8oenD@ds061196.mlab.com:61196/cities-a',
-		name: 'cities'
+		cities: 'cities',
+		games: 'games'
 	}
 };
 
