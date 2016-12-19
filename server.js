@@ -13,7 +13,7 @@ const bodyParser = require('body-parser');
 
 const routes = require('./routes');
 const config = require('./config');
-const utils = require('./cityUtils');
+const utils = require('./utils');
 
 const app = express();
 const http = require('http').Server(app);
@@ -31,26 +31,54 @@ app.use('/api', routes);
 io.on('connection', (socket) => {
 	console.log('client connected');
 
-	socket.on('disconnect', function() {
-		console.log('client disconnected');
+	/*socket.on('disconnect', function() {
+
+	});*/
+
+	//register a game
+	socket.on('new-game', (data, callback) => {
+		let game = utils.saveGame(data);
+		console.log('game ' + game._id + ' was created');
+		socket.broadcast.emit('add-game', game);
+		socket.join(game._id);
+		callback(game._id);
 	});
 
-	socket.on('user-connected', (user, callback) => {
-		utils.addUserInGame(user);
-		io.emit('new-user', user.user);
+	//room related calls
+	socket.on('user-connected', (data, callback) => {
+		utils.addGameUser(data);
+		socket.join(data.game_id);
+		socket.broadcast.to(data.game_id).emit('new-user', data.user);
 		callback();
 	});
+	
+	socket.on('user-disconnected', (data, callback) => {
+		utils.removeGameUser(data);
 
-	socket.on('game-over', (data) => {
-		io.emit('end-game', data);
+		utils.findGame(data.game_id, function(err, game) {
+			if(data.user === game.host) {
+				this.deleteGame(data.game_id, function(err) {
+					if(err) throw new Error(err);
+
+					socket.broadcast.to(data.game_id).emit('user-left', data.user);
+					socket.leave(data.game_id);
+					callback();
+				});
+
+			}
+		});
+
 	});
 
-	socket.on('new-game', (game, callback) => {
-		console.log('game ' + game.city._id + ' was created');
-		utils.saveGame(game);
-		io.emit('add-game', game);
-		callback();
+	socket.on('game-over', (data, callback) => {
+		utils.deleteGame(data.game_id, function(err) {
+			if(err) throw new Error(err);
+			socket.broadcast.to(data.game_id).emit('end-game', data);
+			socket.leave(data.game_id);
+			callback();
+		});
 	});
+
 });
 
 http.listen(config.port, function() {

@@ -54,12 +54,11 @@ export class NewGameComponent implements OnInit {
 		let self = this;
 		let game = {
 			city: city,
-			host: this.username,
-			players: [this.username]
+			host: this.username
 		};
 		//Notify others
-		this.multiplayerService.newGame(game, function () {
-			self.router.navigate(['/city', city._id, params]);
+		this.multiplayerService.newGame(game, function (gameId) {
+			self.router.navigate(['/game', gameId, params]);
 		});
 
 	}

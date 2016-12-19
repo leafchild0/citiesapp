@@ -35,6 +35,12 @@ export class CitiesService {
 			.map(res => res.json());
 	}
 
+	getGame(id) {
+		let headers = CitiesService.getJsonHeaders();
+		return this._http.get(this.games_url + id, { headers: headers })
+			.map(res => res.json());
+	}
+
 	private static getJsonHeaders() {
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');

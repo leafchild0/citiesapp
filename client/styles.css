@@ -15,25 +15,21 @@ body {
 
 .center-block {
     float: none;
+    text-align: center;
 }
 
 img {
     margin: 10px;
 }
 
-.my-drop-zone {
-    display: block;
-    width: 200px;
-    height: 100px;
-    margin: 10px auto;
-    text-align: center;
-    line-height: 34px;
-    font-size: 18px;
-    border-radius: 5px;
-    transition: all 0.5s ease;
-    -webkit-transition: all 0.5s ease;
-    background: #41c7f9;
-    color: #fff;
+div.drop-zone {
+    outline: 2px dashed black;
+    outline-offset: -10px;
+    font-size: 1.25rem;
+    background-color: #c8dadf;
+    position: relative;
+    padding: 100px 20px;
+    margin: 10px;
 }
 
 .img-item {

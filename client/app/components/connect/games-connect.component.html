@@ -9,15 +9,15 @@
 
 <div class="row" *ngFor="let game of games">
 	<div class="col-xs-4 col-lg-4 col-md-4">
-		<a (click)="previewImage(game.city.photos[0])">
-			<img class="img-responsive img-thumbnail" [src]="game.city.photos[0]">
+		<a>
+			<img class="img-responsive img-thumbnail" [src]="stubPhoto">
 		</a>
 	</div>
 	<div class="col-xs-4 col-lg-4 col-md-4">
 		<h4>Создатель игры - {{game.host}}</h4>
-		<p>Количество игроков - {{game.players.length}}</p>
+		<p>Количество игроков - {{game.users.length}}</p>
 	</div>
 	<div class="pull-right">
-		<a class="btn btn-success" (click)="connectToGame(game.city._id)"><span class="glyphicon glyphicon-download">Подключиться</span></a>
+		<a class="btn btn-success" (click)="connectToGame(game._id)"><span class="glyphicon glyphicon-download">Подключиться</span></a>
 	</div>
 </div>

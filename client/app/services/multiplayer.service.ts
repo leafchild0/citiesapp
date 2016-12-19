@@ -6,14 +6,25 @@
 
 import { Observable } from 'rxjs/Observable';
 import * as io from 'socket.io-client';
+import {Settings} from "../settings";
 
 export class MultiplayerService {
-	private url = 'http://192.168.1.104:3000';
-	private socket = io(this.url);
+	private url: string;
+	private socket: any;
 
-	connectToGame(user, callback) {
+	constructor() {
+		this.url = Settings.api_url;
+		this.socket = io(this.url);
+	}
+
+	connectToGame(data, callback) {
 		if(!this.socket.connected) this.socket = io(this.url);
-		this.socket.emit('user-connected', user, callback);
+		this.socket.emit('user-connected', data, callback);
+	}
+
+	leavingGame(data, callback) {
+		if(!this.socket.connected) this.socket = io(this.url);
+		this.socket.emit('user-disconnected', data, callback);
 	}
 
 	newGame(game, callback) {
@@ -21,13 +32,14 @@ export class MultiplayerService {
 		this.socket.emit('new-game', game, callback);
 	}
 
-	gameCompleted(result) {
+	gameCompleted(result, callback) {
 		if(!this.socket.connected) this.socket = io(this.url);
-		this.socket.emit('game-over', result);
+		this.socket.emit('game-over', result, callback);
 	}
 
 	gamesAvailable() {
 		return new Observable(observer => {
+            if(!this.socket.connected) this.socket = io(this.url);
 			this.socket.on('add-game', (game) => {
 				observer.next(game);
 			});
@@ -37,9 +49,22 @@ export class MultiplayerService {
 		});
 	}
 
-	userInGame() {
+	userJoin() {
 		return new Observable(observer => {
+            if(!this.socket.connected) this.socket = io(this.url);
 			this.socket.on('new-user', (username) => {
+				observer.next(username);
+			});
+			return () => {
+				this.socket.disconnect();
+			};
+		});
+	}
+
+	userLeft() {
+		return new Observable(observer => {
+            if(!this.socket.connected) this.socket = io(this.url);
+			this.socket.on('user-left', (username) => {
 				observer.next(username);
 			});
 			return () => {

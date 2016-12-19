@@ -8,8 +8,8 @@
 	     [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
 	     (fileOver)="fileOverBase($event)"
 	     [uploader]="uploader"
-	     class="well my-drop-zone">
-		Добавить фото
+	     class="well drop-zone">
+		<p class="center-block lead">Добавить фото<p>
 	</div>
 
 	<button type="submit" class="btn btn-primary" (click)="uploadAll()">Загрузить все</button>

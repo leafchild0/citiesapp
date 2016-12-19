@@ -20,7 +20,7 @@ const routes: Routes = [
 	{ path: 'newgame', component: NewGameComponent },
 	{ path: 'connect', component: ConnectGamesComponent },
 	{ path: 'rules', component: RulesComponent },
-	{ path: 'city/:id', component: GameCityComponent },
+	{ path: 'game/:id', component: GameCityComponent },
 	{ path: 'addcity', component: AddCityComponent }
 ];
 

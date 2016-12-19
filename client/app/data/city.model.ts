@@ -10,5 +10,4 @@ export class City {
 	name: string;
 	path: string;
 	photos: [string];
-	host: string;
 }

@@ -9,6 +9,8 @@ import { City } from "../../data/city.model";
 import { CitiesService } from "../../services/cities.service";
 import { Router } from "@angular/router";
 import { MultiplayerService } from "../../services/multiplayer.service";
+import {Game} from "../../data/game.model";
+import {Settings} from "../../settings";
 
 @Component({
 	moduleId: module.id,
@@ -17,34 +19,41 @@ import { MultiplayerService } from "../../services/multiplayer.service";
 })
 
 export class ConnectGamesComponent implements OnInit, OnDestroy {
-	games = [];
-	connection;
-	username: string = 'Гость';
+	games: any[];
+	connection: any;
+	username: string;
+	stubPhoto: string;
 
 	constructor(private router: Router,
 	            private citiesService: CitiesService,
-	            private multiplayerService: MultiplayerService) {}
+	            private multiplayerService: MultiplayerService) {
+		this.username = 'Гость ' + Date.now();
+		this.stubPhoto = Settings.stub_photo;
+		this.games = [];
+	}
 
 	ngOnInit() {
-
 		//Get data from server
 		this.citiesService.getGames()
 			.subscribe(games => {
-				this.games = games;
-				this.games.forEach((game) => {
-					this.constructPhotoPath(game.city);
+				games.forEach((game) => {
+					this.addGame(game);
 				});
 			});
 
 		//Listen for new games
 		this.connection = this.multiplayerService.gamesAvailable().subscribe(data => {
-			this.constructPhotoPath(data.city);
-			this.games.push(data);
+			this.addGame(data);
 		});
 	}
 
-	private constructPhotoPath(data) {
-		data.photos.forEach((photo, index) => data.photos[ index ] = data.path + '/' + photo);
+	private addGame(game) {
+		this.constructPhotoPath(game.city);
+		this.games.push(game);
+	}
+
+	private constructPhotoPath(city) {
+		city.photos.forEach((photo, index) => city.photos[ index ] = city.path + '/' + photo);
 	}
 
 	ngOnDestroy() {
@@ -55,12 +64,8 @@ export class ConnectGamesComponent implements OnInit, OnDestroy {
 		let self = this;
 		let params = { username: this.username };
 		this.multiplayerService.connectToGame({ game_id: gameId, user: this.username }, function () {
-			self.router.navigate([ '/city', gameId, params ]);
+			self.router.navigate([ '/game', gameId, params ]);
 		});
-
-	}
-
-	previewImage(image) {
 
 	}
 
