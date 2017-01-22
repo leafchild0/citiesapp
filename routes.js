@@ -32,7 +32,7 @@ router.get('/games/:id', function(req, res) {
 	});
 });
 
-router.delete('/games/:id', function(req, res) {
+/*router.delete('/games/:id', function(req, res) {
 	utils.deleteGame(req.params.id, function(err) {
 		if(err) res.send(err);
 		else {
@@ -40,7 +40,7 @@ router.delete('/games/:id', function(req, res) {
 			res.send();
 		}
 	});
-});
+});*/
 
 //Upload item
 router.post('/cities', function(req, res) {

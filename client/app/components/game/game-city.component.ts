@@ -30,6 +30,7 @@ export class GameCityComponent implements OnInit, OnDestroy {
     gamesConn: any;
     currentuser: string;
     displayPhoto: string;
+    winner: string;
     hints: number;
 
     @ViewChild('smModal')
@@ -80,14 +81,17 @@ export class GameCityComponent implements OnInit, OnDestroy {
     }
 
     private endGame(data): void {
-        debugger;
-        if (data.result && data.user != this.currentuser) {
+        //User won
+        if (data.result) {
+            this.winner = data.user;
             this.toastr.warning('Игрок ' + data.user + ' выиграл', 'Игра окончена');
+            this.showChildModal();
         }
+        //User lose, show to others
         else {
             this.toastr.warning('Игрок ' + data.user + ' выбывает из игры', 'Обновление игроков');
         }
-        this.showChildModal();
+
     }
 
     ngOnDestroy() {
@@ -123,6 +127,8 @@ export class GameCityComponent implements OnInit, OnDestroy {
                 result: true
             }, function () {
                 self.toastr.success('Вы выиграли', 'Игра окончена');
+                this.winner = this.currentuser;
+                self.showChildModal();
             });
         } else {
             this.toastr.error('Спробуйте ще. Осталось ' + (this.tries - 1), 'Неправильно');

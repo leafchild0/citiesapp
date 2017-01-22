@@ -68,7 +68,7 @@ utils.findGame = function(id, callback) {
 	}));
 };
 
-utils.deleteGame = function(id, callback) {
+utils.deleteGame = function(id) {
 	"use strict";
 	let found = games.find(game => {
 		return game._id === id;
@@ -76,10 +76,9 @@ utils.deleteGame = function(id, callback) {
 
 	if (found) {
 		games.splice(games.indexOf(found), 1);
-		callback(null);
 	}
 	else {
-		callback(new Error('Game was not found'));
+		throw new Error('Game with id ' + id + ' was not found');
 	}
 };
 

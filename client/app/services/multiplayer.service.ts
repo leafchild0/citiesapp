@@ -18,28 +18,23 @@ export class MultiplayerService {
 	}
 
 	connectToGame(data, callback) {
-		if(!this.socket.connected) this.socket = io(this.url);
-		this.socket.emit('user-connected', data, callback);
+		this.socket.emit('user-new', data, callback);
 	}
 
 	leavingGame(data, callback) {
-		if(!this.socket.connected) this.socket = io(this.url);
-		this.socket.emit('user-disconnected', data, callback);
+		this.socket.emit('user-left', data, callback);
 	}
 
 	newGame(game, callback) {
-		if(!this.socket.connected) this.socket = io(this.url);
-		this.socket.emit('new-game', game, callback);
+		this.socket.emit('game-new', game, callback);
 	}
 
 	gameCompleted(result, callback) {
-		if(!this.socket.connected) this.socket = io(this.url);
 		this.socket.emit('game-over', result, callback);
 	}
 
 	gamesAvailable() {
 		return new Observable(observer => {
-            if(!this.socket.connected) this.socket = io(this.url);
 			this.socket.on('add-game', (game) => {
 				observer.next(game);
 			});
@@ -51,8 +46,7 @@ export class MultiplayerService {
 
 	userJoin() {
 		return new Observable(observer => {
-            if(!this.socket.connected) this.socket = io(this.url);
-			this.socket.on('new-user', (username) => {
+			this.socket.on('user-new', (username) => {
 				observer.next(username);
 			});
 			return () => {
@@ -63,7 +57,6 @@ export class MultiplayerService {
 
 	userLeft() {
 		return new Observable(observer => {
-            if(!this.socket.connected) this.socket = io(this.url);
 			this.socket.on('user-left', (username) => {
 				observer.next(username);
 			});
@@ -75,7 +68,7 @@ export class MultiplayerService {
 
 	gameResults() {
 		return new Observable(observer => {
-			this.socket.on('end-game', (data) => {
+			this.socket.on('game-over', (data) => {
 				observer.next(data);
 			});
 			return () => {
